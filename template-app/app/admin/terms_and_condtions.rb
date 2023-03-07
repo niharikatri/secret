@@ -4,7 +4,7 @@ ActiveAdmin.register BxBlockTermsandconditions::TermsAndCondition,as:"Terms And 
   
     form do |f|
       f.inputs 'TermsAndCondition' do
-        f.input :description
+        f.input :description, as: :quill_editor
       end
       f.actions
     end
@@ -13,7 +13,7 @@ ActiveAdmin.register BxBlockTermsandconditions::TermsAndCondition,as:"Terms And 
     selectable_column
     id_column
     column :terms_and_condition do |term|
-      div do 
+      div :class => "quill-editor" do 
         truncate(term.description, omision: "...", length: 50)
       end
     end
@@ -22,7 +22,7 @@ ActiveAdmin.register BxBlockTermsandconditions::TermsAndCondition,as:"Terms And 
  
   show title: "Terms & Conditions" do |d|
       attributes_table do
-        div do
+        div :class => "quill-editor" do
           d.description.html_safe
         end
     end
