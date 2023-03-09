@@ -6,4 +6,8 @@ Rails.application.routes.draw do
   namespace :account_block do
     resources :accounts
   end
+
+  namespace :bx_block_termsandconditions do
+    resources :terms_and_conditions
+  end
 end
