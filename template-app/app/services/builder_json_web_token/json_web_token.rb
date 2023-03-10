@@ -34,7 +34,7 @@ module BuilderJsonWebToken
       end
 
       def secret_key
-        @secret_key ||= ENV['SECRET_KEY_BASE']
+        @secret_key ||= Rails.application.secret_key_base
       end
 
       def algorithm

@@ -41,10 +41,11 @@ module AccountBlock
 
         query_email = account_params["email"].downcase
         account = EmailAccount.where("LOWER(email) = ?", query_email).first
+        account.destroy if account&.activated == false
 
         validator = EmailValidation.new(account_params["email"])
 
-        if account || !validator.valid?
+        if !validator.valid?
           return render json: {errors: [
             {account: "Email invalid"}
           ]}, status: :unprocessable_entity
@@ -56,7 +57,7 @@ module AccountBlock
         if @account.save
           EmailValidationMailer
             .with(account: @account, host: request.base_url)
-            .activation_email.deliver
+            .activation_email.deliver_now
           render json: EmailAccountSerializer.new(@account, meta: {
             token: encode(@account.id)
           }).serializable_hash, status: :created
@@ -157,6 +158,14 @@ module AccountBlock
 
     def search_params
       params.permit(:query)
+    end
+
+    def format_activerecord_errors(errors)
+        result = []
+        errors.each do |attribute, error|
+          result << {attribute => error}
+        end
+        result
     end
   end
 end
