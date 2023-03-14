@@ -1,14 +1,15 @@
 ActiveAdmin.register BxBlockAdmin::AboutUs, as: "About Us" do
-permit_params :description
+  ABOUT_US = "About Us"
+  permit_params :description
   
-    form do |f|
-      f.inputs 'AboutUs' do
-        f.input :description, as: :quill_editor
-      end
-      f.actions
+  form do |f|
+    f.inputs 'AboutUs' do
+      f.input :description, as: :quill_editor
     end
+    f.actions
+  end
   
-  index title: "About Us" do
+  index title: ABOUT_US do
     selectable_column
     id_column
     column :about_us do |about_us|
@@ -19,7 +20,7 @@ permit_params :description
     actions
   end
  
-  show title: "About Us" do |d|
+  show title: ABOUT_US do |d|
       attributes_table do
         div :class => "quill-editor" do
           d.description.html_safe
