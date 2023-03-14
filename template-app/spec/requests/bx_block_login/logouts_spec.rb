@@ -5,10 +5,12 @@ RSpec.describe "BxBlockLogin::Logouts", type: :request do
 
     let!(:account) { FactoryBot.create(:account) }   
     before do
+      @content_type = "application/json"
+      @c_type = "Content-Type"
       auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
       @headers = {
         "token" => auth_token,
-        "Content-Type" => "application/json"
+        @c_type => @content_type
       }
       @logout_path = "/bx_block_login/logouts/" + account.id.to_s
     end
@@ -23,7 +25,7 @@ RSpec.describe "BxBlockLogin::Logouts", type: :request do
     it "Returns error" do 
       headers = {
         "token" => "asjfhalskhflaskjflkasjlfkjasf",
-        "Content-Type" => "application/json"
+        @c_type => @content_type
       }
       delete @logout_path, headers: headers
       response_json = JSON.parse(response.body)
@@ -32,7 +34,7 @@ RSpec.describe "BxBlockLogin::Logouts", type: :request do
 
     it "Returns error" do 
       headers = {
-        "Content-Type" => "application/json"
+        @c_type => @content_type
       }
       delete @logout_path, headers: headers
       response_json = JSON.parse(response.body)
