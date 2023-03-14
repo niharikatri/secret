@@ -10,4 +10,10 @@ Rails.application.routes.draw do
   namespace :bx_block_termsandconditions do
     resources :terms_and_conditions
   end
+
+  namespace :bx_block_admin do
+  	resources :about_us, only: [:index]
+  	resources :privacy_policies, only: [:index]
+  	resources :how_we_works
+  end
 end
