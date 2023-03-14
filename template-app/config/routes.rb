@@ -16,4 +16,9 @@ Rails.application.routes.draw do
   	resources :privacy_policies, only: [:index]
   	resources :how_we_works
   end
+
+  namespace :bx_block_login do
+    resources :logouts, only: [:destroy]
+  end
+
 end
