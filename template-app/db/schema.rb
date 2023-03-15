@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_14_100904) do
+ActiveRecord::Schema.define(version: 2023_03_15_115923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,10 @@ ActiveRecord::Schema.define(version: 2023_03_14_100904) do
     t.integer "role_id"
     t.integer "character_id"
     t.integer "voice_id"
+    t.date "date_of_birth"
+    t.integer "gender"
+    t.boolean "autoplay_setting", default: true
+    t.boolean "reply_audio_setting", default: true
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
