@@ -28,20 +28,20 @@ RSpec.describe BxBlockForgotPassword::PasswordsController, type: :request do
     end
   end
 
-   describe "PUT /create_password" do
-     context 'reset password' do
+  describe "PUT /create_password" do
+    context 'reset password' do
       it 'create new password through link' do
         put VAR1, params: { new_password: "test@123" ,token: @token }
         expect(response.status).to eq 200
       end
       
-      it 'create new password through link' do
+      it 'when token is invalid' do
         put VAR1, params: { new_password: "test@123" ,token: ".." }
         expect(response.status).to eq 422
       end
 
-      it 'create new password through link' do
-        put VAR1, params: {  new_password: nil }
+      it 'when new password is nil' do
+        put VAR1, params: { new_password: nil }
         expect(response.status).to eq 204
       end
     end
