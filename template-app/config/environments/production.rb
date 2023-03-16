@@ -101,11 +101,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
-    address: "smtp.office365.com",
+    address: "smtp.sendgrid.net",
     port: 587,
-    domain: "hotmail.com",
-    user_name: "fmrabie@hotmail.com",
-    password: "HPgood@987654321",
+    domain: "fmrabie@hotmail.com",
+    user_name: "apikey",
+    password: "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",
     authentication: "login",
     enable_starttls_auto: true
   }
