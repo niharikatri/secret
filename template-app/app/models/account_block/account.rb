@@ -13,7 +13,8 @@ module AccountBlock
     belongs_to :voice, optional: true
     belongs_to :character, optional: true
 
-    enum status: %i[regular suspended deleted]
+    enum status: %i[regular suspended deleted deactivated]
+    enum gender: %i[male female other]
 
     scope :active, -> { where(activated: true) }
     scope :existing_accounts, -> { where(status: ["regular", "suspended"]) }

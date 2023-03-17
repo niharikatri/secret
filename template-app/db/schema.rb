@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_10_073753) do
+ActiveRecord::Schema.define(version: 2023_03_15_115923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "about_us", force: :cascade do |t|
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "account_categories", force: :cascade do |t|
     t.integer "account_id"
@@ -63,6 +69,10 @@ ActiveRecord::Schema.define(version: 2023_03_10_073753) do
     t.integer "role_id"
     t.integer "character_id"
     t.integer "voice_id"
+    t.date "date_of_birth"
+    t.integer "gender"
+    t.boolean "autoplay_setting", default: true
+    t.boolean "reply_audio_setting", default: true
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -209,6 +219,12 @@ ActiveRecord::Schema.define(version: 2023_03_10_073753) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "how_we_works", force: :cascade do |t|
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "media", force: :cascade do |t|
     t.string "imageable_type"
     t.string "imageable_id"
@@ -217,6 +233,12 @@ ActiveRecord::Schema.define(version: 2023_03_10_073753) do
     t.string "presigned_url"
     t.integer "status"
     t.string "category"
+  end
+
+  create_table "privacy_policies", force: :cascade do |t|
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "push_notifications", force: :cascade do |t|
