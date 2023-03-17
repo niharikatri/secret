@@ -10,6 +10,14 @@ module AccountBlock
       phone_number_for object
     end
 
+    attribute :character do |object|
+      CharacterSerializer.new(object.character).serializable_hash
+    end
+
+    attribute :voice do |object|
+      VoiceSerializer.new(object.voice).serializable_hash
+    end
+
     class << self
       private
 
