@@ -1,4 +1,5 @@
 ActiveAdmin.register BxBlockAdmin::AboutUs, as: "About Us" do
+  menu parent: 'App Settings'
   ABOUT_US = "About Us"
   permit_params :description
   

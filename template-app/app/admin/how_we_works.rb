@@ -1,4 +1,5 @@
 ActiveAdmin.register BxBlockAdmin::HowWeWork, as: "How We Work" do
+  menu parent: 'App Settings'
   HOW_WE_WORK = "How We Work"
   permit_params :description
     

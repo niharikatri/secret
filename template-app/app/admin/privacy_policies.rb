@@ -1,4 +1,6 @@
 ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
+  menu parent: 'App Settings'
+
   permit_params :description
     
   form do |f|

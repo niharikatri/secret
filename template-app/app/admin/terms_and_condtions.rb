@@ -1,4 +1,5 @@
 ActiveAdmin.register BxBlockTermsandconditions::TermsAndCondition,as:"Terms And Conditions" do
+  menu parent: 'App Settings'
 
   permit_params :description
   
