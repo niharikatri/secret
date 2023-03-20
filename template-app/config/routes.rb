@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :account_block do
     resources :accounts
+    resources :characters, only: [:index]
+    resources :voices, only: [:index]
   end
 
   namespace :bx_block_login do
@@ -19,4 +21,14 @@ Rails.application.routes.draw do
     get 'generate_password_link', to: 'passwords#generate_password_link'
     put 'create_password', to: 'passwords#create_password'
   end
+  namespace :bx_block_admin do
+  	resources :about_us, only: [:index]
+  	resources :privacy_policies, only: [:index]
+  	resources :how_we_works
+  end
+
+  namespace :bx_block_login do
+    resources :logouts, only: [:destroy]
+  end
+
 end

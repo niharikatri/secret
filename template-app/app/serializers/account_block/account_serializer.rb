@@ -1,6 +1,6 @@
 module AccountBlock
   class AccountSerializer < BuilderBase::BaseSerializer
-    attributes(:activated, :country_code, :email, :first_name, :full_phone_number, :last_name, :phone_number, :type, :created_at, :updated_at, :device_id, :unique_auth_id)
+    attributes(:activated, :country_code, :email, :first_name, :full_phone_number, :last_name, :phone_number, :type, :created_at, :updated_at, :device_id, :unique_auth_id, :date_of_birth, :gender, :autoplay_setting, :reply_audio_setting)
 
     attribute :country_code do |object|
       country_code_for object
@@ -8,6 +8,14 @@ module AccountBlock
 
     attribute :phone_number do |object|
       phone_number_for object
+    end
+
+    attribute :character do |object|
+      CharacterSerializer.new(object.character).serializable_hash
+    end
+
+    attribute :voice do |object|
+      VoiceSerializer.new(object.voice).serializable_hash
     end
 
     class << self

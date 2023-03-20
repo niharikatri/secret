@@ -10,8 +10,11 @@ module AccountBlock
     before_create :generate_api_key
     has_one :blacklist_user, class_name: "AccountBlock::BlackListUser", dependent: :destroy
     after_save :set_black_listed_user
+    belongs_to :voice, optional: true
+    belongs_to :character, optional: true
 
-    enum status: %i[regular suspended deleted]
+    enum status: %i[regular suspended deleted deactivated]
+    enum gender: %i[male female other]
 
     scope :active, -> { where(activated: true) }
     scope :existing_accounts, -> { where(status: ["regular", "suspended"]) }

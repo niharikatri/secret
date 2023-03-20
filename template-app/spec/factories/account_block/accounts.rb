@@ -7,5 +7,9 @@ FactoryBot.define do
       password { "test@123" }
       password_confirmation {"test@123"}
       unique_auth_id { 123456 }
+      activated {true}
+      gender {"male"}
+      reply_audio_setting { true }
+      autoplay_setting { true }
     end
 end
