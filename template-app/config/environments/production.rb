@@ -103,7 +103,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.sendgrid.net",
     port: 587,
-    domain: "fmrabie@hotmail.com",
+    domain: "hotmail.com",
     user_name: "apikey",
     password: "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",
     authentication: "login",
