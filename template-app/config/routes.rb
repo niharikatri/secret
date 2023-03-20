@@ -9,10 +9,18 @@ Rails.application.routes.draw do
     resources :voices, only: [:index]
   end
 
+  namespace :bx_block_login do
+    resources :logins
+  end
+
   namespace :bx_block_termsandconditions do
     resources :terms_and_conditions
   end
 
+  namespace :bx_block_forgot_password do
+    get 'generate_password_link', to: 'passwords#generate_password_link'
+    put 'create_password', to: 'passwords#create_password'
+  end
   namespace :bx_block_admin do
   	resources :about_us, only: [:index]
   	resources :privacy_policies, only: [:index]
