@@ -8,7 +8,7 @@ module BxBlockForgotPassword
 
       mail(
           to: @account.email,
-          from: 'builder.bx_dev@engineer.ai',
+          from: 'fmrabie@hotmail.com',
           subject: 'New Password Reset link') do |format|
         format.html { render 'forgot_password_email' }
       end
