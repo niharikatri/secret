@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   namespace :account_block do
-    resources :accounts
+    resources :accounts do
+      put :update_profile_pic, on: :collection
+    end
     resources :characters, only: [:index]
     resources :voices, only: [:index]
+    resources :languages, only: [:index]
   end
 
   namespace :bx_block_login do

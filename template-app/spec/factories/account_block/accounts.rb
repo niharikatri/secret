@@ -11,5 +11,6 @@ FactoryBot.define do
       gender {"male"}
       reply_audio_setting { true }
       autoplay_setting { true }
+      profile_pic {Rack::Test::UploadedFile.new(Rails.root.join('app/assets/images/test_image.gif'))}
     end
 end

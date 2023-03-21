@@ -93,4 +93,28 @@ RSpec.describe AccountBlock::Account, type: :request do
       end
 
     end
+
+    describe "PUT update_profile_pic" do
+      let(:create_params) do
+          {
+           account: {
+            "profile_pic": Rack::Test::UploadedFile.new(Rails.root.join('app/assets/images/test_image.gif'))
+          }
+        }
+      end
+      it "Updates the Account" do 
+        account = FactoryBot.create(:account)
+        token = BuilderJsonWebToken.encode(account.id)
+        auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+        headers = {
+          "token" => token,
+          "Content-Type" => "application/json"
+        }
+        url = '/account_block/accounts/update_profile_pic'
+        put url, params: create_params.to_json, headers: headers
+        data = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+      end
+
+    end
  end

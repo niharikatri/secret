@@ -12,6 +12,8 @@ module AccountBlock
     after_save :set_black_listed_user
     belongs_to :voice, optional: true
     belongs_to :character, optional: true
+    belongs_to :language, optional: true
+    has_one_attached :profile_pic
 
     enum status: %i[regular suspended deleted deactivated]
     enum gender: %i[male female other]

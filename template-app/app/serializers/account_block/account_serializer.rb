@@ -18,6 +18,17 @@ module AccountBlock
       VoiceSerializer.new(object.voice).serializable_hash
     end
 
+    attribute :language do |object|
+      LanguageSerializer.new(object.language).serializable_hash
+    end
+
+    attribute :profile_pic do |object, params|
+      if object.profile_pic.present?
+          Rails.application.routes.url_helpers.rails_blob_url(object.profile_pic, only_path: true)
+      end    
+    end
+
+
     class << self
       private
 
