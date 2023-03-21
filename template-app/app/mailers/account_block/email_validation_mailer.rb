@@ -9,7 +9,7 @@ module AccountBlock
 
       mail(
         to: @account.email,
-        from: "builder.bx_dev@engineer.ai",
+        from: "fmrabie@hotmail.com",
         subject: "Account activation"
       ) do |format|
         format.html { render "activation_email" }
