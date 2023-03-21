@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resources :characters, only: [:index]
     resources :voices, only: [:index]
     resources :languages, only: [:index]
+    put 'user_roles_and_name', to: 'accounts#user_roles_and_name' 
   end
 
   namespace :bx_block_login do
