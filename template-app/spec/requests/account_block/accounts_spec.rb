@@ -3,13 +3,15 @@ require 'rails_helper'
 RSpec.describe AccountBlock::Account, type: :request do
 
     describe 'account_block/accounts' do
-
+      CONTENT_TYPE = "application/json"
+      C_TYPE = "Content-Type"
+      TOKEN = "token"
       let!(:account) { FactoryBot.create(:account) }   
       before do
         auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
         @headers = {
-          "token" => auth_token,
-          "Content-Type" => "application/json"
+          TOKEN => auth_token,
+          C_TYPE => CONTENT_TYPE
         }
         @post_path = "/account_block/accounts"
       end
@@ -43,7 +45,7 @@ RSpec.describe AccountBlock::Account, type: :request do
            data: {
             type: "email_account",
             attributes: {
-              email: "test@gmail.com",
+              email: account.email,
               password: "Test@123"
               
             }
@@ -83,8 +85,8 @@ RSpec.describe AccountBlock::Account, type: :request do
         token = BuilderJsonWebToken.encode(account.id)
         auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
         headers = {
-          "token" => token,
-          "Content-Type" => "application/json"
+          TOKEN => token,
+          C_TYPE => CONTENT_TYPE
         }
         url = '/account_block/accounts/' + account.id.to_s
         put url, params: create_params.to_json, headers: headers
@@ -107,8 +109,8 @@ RSpec.describe AccountBlock::Account, type: :request do
         token = BuilderJsonWebToken.encode(account.id)
         auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
         headers = {
-          "token" => token,
-          "Content-Type" => "application/json"
+          TOKEN => token,
+          C_TYPE => CONTENT_TYPE
         }
         url = '/account_block/accounts/update_profile_pic'
         put url, params: create_params.to_json, headers: headers
