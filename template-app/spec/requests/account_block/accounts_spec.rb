@@ -127,8 +127,8 @@ RSpec.describe AccountBlock::Account, type: :request do
           token = BuilderJsonWebToken.encode(account.id)
           auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
           headers = {
-          "token" => token,
-          "Content-Type" => "application/json"
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
         }
           put VAR2 , params: {token: token, role_id: account.role_id, first_name: account.first_name }
           expect(response.status).to eq 200
@@ -141,8 +141,8 @@ RSpec.describe AccountBlock::Account, type: :request do
            token = BuilderJsonWebToken.encode(account.id)
            auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
            headers = {
-           "token" => token,
-           "Content-Type" => "application/json"
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
          }
            put VAR2 , params: {token: token, role_id: nil, first_name: nil }
            expect(response.status).to eq 422
