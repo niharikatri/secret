@@ -12,5 +12,6 @@ FactoryBot.define do
       reply_audio_setting { true }
       autoplay_setting { true }
       profile_pic {Rack::Test::UploadedFile.new(Rails.root.join('app/assets/images/test_image.gif'))}
+      role_id {"1"}
     end
 end

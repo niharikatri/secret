@@ -166,6 +166,18 @@ module AccountBlock
     end
 
 
+    def user_roles_and_name
+      account_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
+      @account = AccountBlock::Account.find(account_id)
+      @account.update(role_id: params[:role_id], first_name: params[:name]) 
+      @account.save
+      if @account.role_id.present? && @account.first_name.present?
+        render json: {status: 'success', message:'Role and Name is updated.'}, status: :ok
+      else
+        render json: {status: 'error', message:'Missing Content'}, status: :unprocessable_entity
+      end 
+    end
+
     private
 
     def account_params
