@@ -130,7 +130,7 @@ RSpec.describe AccountBlock::Account, type: :request do
             TOKEN => token,
             C_TYPE => CONTENT_TYPE
         }
-          put VAR2 , params: {token: token, role_id: account.role_id, first_name: account.first_name }
+          put VAR2 , params: {token: token, role_id: account.role_id, name: account.first_name }
           expect(response.status).to eq 200
         end
       end
@@ -144,7 +144,7 @@ RSpec.describe AccountBlock::Account, type: :request do
             TOKEN => token,
             C_TYPE => CONTENT_TYPE
          }
-           put VAR2 , params: {token: token, role_id: nil, first_name: nil }
+           put VAR2 , params: {token: token, role_id: nil, name: nil }
            expect(response.status).to eq 422
         end
       end
