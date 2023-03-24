@@ -149,4 +149,45 @@ RSpec.describe AccountBlock::Account, type: :request do
         end
       end
     end
+
+    describe "#generate_unique_code" do
+      account = FactoryBot.create(:account)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+
+      context "when called by a parent1 account" do
+        it "generates a unique code if the account doesn't have one already" do
+            url = '/account_block/generate_unique_code'
+            get url, params: { token: token }
+          expect(response.status).to eq 200
+        end
+        it "returns the existing unique code if the account already has one" do
+          account.update(unique_code: "1234567890")
+          account.save
+          url = '/account_block/generate_unique_code'
+          get url, params: { token: token }
+          expect(response).to have_http_status(:ok)
+          expect(JSON.parse(response.body)).to eq({ "unique_code" => "1234567890" })
+        end
+      end
+
+      context "when called by a non-parent1 account" do
+        account = FactoryBot.create(:account)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+        it "returns an error message" do
+          url = '/account_block/generate_unique_code'
+          get url, params: { token: token,  }
+          expect(response.status).to eq 200
+        end
+      end
+    end
   end
