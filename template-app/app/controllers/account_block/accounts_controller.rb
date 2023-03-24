@@ -2,7 +2,7 @@ module AccountBlock
   class AccountsController < ApplicationController
     include BuilderJsonWebToken::JsonWebTokenValidation
 
-    before_action :validate_json_web_token, only: [:search, :change_email_address, :change_phone_number, :specific_account, :logged_user, :update, :update_profile_pic]
+    before_action :validate_json_web_token, only: [:search, :change_email_address, :change_phone_number, :specific_account, :logged_user, :update, :update_profile_pic, :generate_unique_code]
 
     def create
       case params[:data][:type] #### rescue invalid API format
@@ -177,6 +177,33 @@ module AccountBlock
         render json: {status: 'error', message:'Missing Content'}, status: :unprocessable_entity
       end 
     end
+
+    def generate_unique_code
+      @account = Account.find(@token.id)
+      if @account.present? #&& @account.role_id == 1
+        if @account.unique_code.blank?
+          random_code = SecureRandom.random_number(100**5).to_s.rjust(10,'0')
+          @account.update(unique_code: random_code)
+          @account.save
+        end
+        return render json: { unique_code: @account.unique_code }, status: :ok
+      end
+      render json: { message: 'This is not the Parent1 user, not able to generate unique code!'}, status: :ok
+    end
+
+    # def verified_unique_code
+    #   @account = Account.find(@token.id)
+    #   if @account.present? && @account.role_id != 1
+    #     code = @account.find_by(unique_code: params[:unique_code])
+    #     if code.present?
+    #       return render json: { message: 'User already verified!' }, status: 200
+    #     end
+    #     @account.update(unique_code: params[:unique_code])
+    #     @account.save
+    #     return render json: { message: 'Code is verified Successfully!' }, status: 200
+    #   end
+    #   render json: { message: 'Verification failed!' }, status: :unprocessable_entity
+    # end
 
     private
 
