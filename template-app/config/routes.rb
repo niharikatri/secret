@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
 
   namespace :bx_block_forgot_password do
-    get 'generate_password_link', to: 'passwords#generate_password_link'
+    put 'generate_password_link', to: 'passwords#generate_password_link'
     put 'create_password', to: 'passwords#create_password'
   end
   namespace :bx_block_admin do
