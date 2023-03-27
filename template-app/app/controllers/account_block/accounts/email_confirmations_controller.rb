@@ -23,10 +23,8 @@ module AccountBlock
         end
 
         @account.update activated: true
-
-        render json: ValidateAvailableSerializer.new(@account, meta: {
-          message: "Account Activated Successfully"
-        }).serializable_hash, status: :ok
+        token = BuilderJsonWebToken.encode(@account.id, 7.days.from_now)
+        redirect_to "secretfriend://login?token=#{token}", allow_other_host: true and return
       end
     end
   end
