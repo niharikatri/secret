@@ -10,3 +10,6 @@ AdminUser.where(email: 'admin@example.com').first_or_initialize.tap do |user|
   user.password_confirmation = 'password'
   user.save
 end
+BxBlockRolesPermssions.find_or_create_by(name: "Parent1")
+BxBlockRolesPermssions.find_or_create_by(name: "Parent2")
+BxBlockRolesPermssions.find_or_create_by(name: "Child")
