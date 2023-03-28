@@ -17,7 +17,7 @@ module AccountGroups
 end
 
 unless AccountGroups::Load.is_loaded_from_gem
-  ActiveAdmin.register BxBlockAccountGroups::Group do
+  ActiveAdmin.register BxBlockAccountGroups::Group, as: 'User Groups' do
     permit_params :name, :settings, :account_ids
 
     index do
