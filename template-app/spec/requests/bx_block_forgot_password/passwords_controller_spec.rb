@@ -13,16 +13,16 @@ RSpec.describe BxBlockForgotPassword::PasswordsController, type: :request do
   describe "GET /generate_password_link" do
     context 'when there is a request to forgot password generate' do
       it 'When password link successfully generate' do
-        get VAR, params: { data: { email: @email_account.email,activated: true }, :format => 'js' }
+        put VAR, params: { data: { email: @email_account.email,activated: true }, :format => 'js' }
         expect(response.status).to eq 200
       end
      
       it "When password link successfully generate" do
-        get VAR, params: { data: { email: @email_account.email }, :format => 'js' }
+        put VAR, params: { data: { email: @email_account.email }, :format => 'js' }
       end
      
       it "When password not" do
-        get VAR, params: { data: { email: "nil_data@yopmail.com" }  }
+        put VAR, params: { data: { email: "nil_data@yopmail.com" }  }
         expect(response.status).to eq 404
       end  
     end
