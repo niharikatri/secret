@@ -85,7 +85,6 @@ module BxBlockForgotPassword
         end
 
         @account = AccountBlock::Account.find_by(id: token.id)
-
         if @account.present? && @account.update_attribute(:password, params[:new_password])
             render json: { status: true, data: @account }
         else

@@ -15,7 +15,7 @@ ActiveAdmin.register BxBlockTermsandconditions::TermsAndCondition,as:"Terms And 
     id_column
     column :terms_and_condition do |term|
       div :class => "quill-editor" do 
-        truncate(term.description, omision: "...", length: 50)
+        truncate(term.description.html_safe, omision: "...", length: 50)
       end
     end
     actions

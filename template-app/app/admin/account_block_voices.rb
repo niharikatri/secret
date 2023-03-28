@@ -19,7 +19,7 @@ ActiveAdmin.register AccountBlock::Voice, as: "Voices" do
   form do |f|
     f.inputs
     f.inputs do 
-      f.input :audio, as: :file
+      f.input :audio, as: :file, required: true, input_html: {accept: ".mp3, .wav"}
     end
     f.actions
   end

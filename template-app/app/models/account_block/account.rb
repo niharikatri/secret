@@ -13,6 +13,7 @@ module AccountBlock
     belongs_to :voice, optional: true
     belongs_to :character, optional: true
     belongs_to :language, optional: true
+    belongs_to :role, class_name: "BxBlockRolesPermissions::Role", optional: true
     has_one_attached :profile_pic
 
     enum status: %i[regular suspended deleted deactivated]

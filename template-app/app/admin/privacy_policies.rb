@@ -15,7 +15,7 @@ ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
     id_column
     column :privacy_policy do |privacy_policy|
       div :class => "quill-editor" do 
-        truncate(privacy_policy.description, omision: "...", length: 50)
+        truncate(privacy_policy.description.html_safe, omision: "...", length: 50)
       end
     end
     actions

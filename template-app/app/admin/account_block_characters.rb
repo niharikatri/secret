@@ -26,7 +26,7 @@ ActiveAdmin.register AccountBlock::Character, as: "Characters" do
   form do |f|
     f.inputs
     f.inputs do 
-      f.input :image, as: :file
+      f.input :image, as: :file, required: true, input_html: {accept: ".gif, .jpg, .png, .jpeg"}
     end
     f.actions
   end

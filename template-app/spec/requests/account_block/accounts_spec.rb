@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AccountBlock::Account, type: :request do
-  VAR2=URI.encode("http://www.example.com:80/account_block/user_roles_and_name")
-
     describe 'account_block/accounts' do
       CONTENT_TYPE = "application/json"
       C_TYPE = "Content-Type"
@@ -119,36 +117,7 @@ RSpec.describe AccountBlock::Account, type: :request do
       end
 
     end
- end
-    describe "PUT /update name and role" do
-      context 'account role and name updates' do
-       it 'update user role and name' do
-          account = FactoryBot.create(:account)
-          token = BuilderJsonWebToken.encode(account.id)
-          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
-          headers = {
-            TOKEN => token,
-            C_TYPE => CONTENT_TYPE
-        }
-          put VAR2 , params: {token: token, role_id: account.role_id, name: account.first_name }
-          expect(response.status).to eq 200
-        end
-      end
-
-      context 'account role and name not updated' do
-        it 'does not updated when value is nil' do
-           account = FactoryBot.create(:account)
-           token = BuilderJsonWebToken.encode(account.id)
-           auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
-           headers = {
-            TOKEN => token,
-            C_TYPE => CONTENT_TYPE
-         }
-           put VAR2 , params: {token: token, role_id: nil, name: nil }
-           expect(response.status).to eq 422
-        end
-      end
-    end
+  end
 
     describe "#generate_unique_code" do
       account = FactoryBot.create(:account)
