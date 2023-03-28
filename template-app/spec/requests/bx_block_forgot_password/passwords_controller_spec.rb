@@ -3,10 +3,10 @@ require 'spec_helper'
 
 RSpec.describe BxBlockForgotPassword::PasswordsController, type: :request do
   #let(:account){FactoryBot.create(:account,email: "test@example.com")}
-  VAR=URI.encode("http://www.example.com:80/bx_block_forgot_password/generate_password_link")
-  VAR1=URI.encode("http://www.example.com:80/bx_block_forgot_password/create_password")
+  VAR="/bx_block_forgot_password/generate_password_link"
+  VAR1= "/bx_block_forgot_password/create_password"
   before(:each) do
-    @email_account = FactoryBot.create(:email_account)
+    @email_account = FactoryBot.create(:account)
     @token = BuilderJsonWebToken.encode(@email_account.id)
   end
 

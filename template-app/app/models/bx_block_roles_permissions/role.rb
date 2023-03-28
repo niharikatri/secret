@@ -4,6 +4,6 @@ module BxBlockRolesPermissions
 
     has_many :accounts, class_name: 'AccountBlock::Account', dependent: :destroy
 
-    validates :name, uniqueness: { message: 'Role already present' }
+    validates :name, presence: true, uniqueness: { message: 'Role already present' }
   end
 end

@@ -15,7 +15,7 @@ ActiveAdmin.register BxBlockAdmin::HowWeWork, as: "How We Work" do
     id_column
     column :how_we_work do |how_we_work|
       div :class => "quill-editor" do 
-        truncate(how_we_work.description, omision: "...", length: 50)
+        truncate(how_we_work.description.html_safe, omision: "...", length: 50)
       end
     end
     actions
