@@ -185,7 +185,7 @@ module AccountBlock
       r_id = role.id
       check_code = Account.find_by(unique_code: params[:unique_code])
       if check_code.present?
-        if @account.present? && @account.role_id != role.id
+        if @account.present? && @account.role_id != r_id
           if @account.unique_code.blank?
             @account.update(unique_code: params[:unique_code])
             @account.save

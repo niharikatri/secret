@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AccountBlock::Account, type: :request do
+  VAR2 = URI.encode("http://www.example.com:80/account_block/verified_unique_code")
     describe 'account_block/accounts' do
       CONTENT_TYPE = "application/json"
       C_TYPE = "Content-Type"
@@ -178,13 +179,11 @@ RSpec.describe AccountBlock::Account, type: :request do
           }
         end
         it "verified a unique code if the account doesn't have one already" do
-            url = '/account_block/verified_unique_code'
-            put url, params: { token: token, unique_code: "1234567890" }
+            put VAR2, params: { token: token, unique_code: "1234567890" }
           expect(response.status).to eq 422
         end
         it "returns the success message User already verified if the account already has one" do
-          url = '/account_block/verified_unique_code'
-          put url, params: { token: token, unique_code: "1234567890" }
+          put VAR2, params: { token: token, unique_code: "1234567890" }
           expect(response.status).to eq 422
         end
       end
@@ -205,13 +204,11 @@ RSpec.describe AccountBlock::Account, type: :request do
           }
         end
         it "returns an error message This is a Parent1 user,Verification failed!" do
-          url = '/account_block/verified_unique_code'
-          put url, params: { token: token, unique_code: "1234567890" }
+          put VAR2, params: { token: token, unique_code: "1234567890" }
           expect(response.status).to eq 422
         end
         it "returns an error message Wrong Unique Code!" do
-          url = '/account_block/verified_unique_code'
-          put url, params: { token: token, unique_code: "1234567890" }
+          put VAR2, params: { token: token, unique_code: "1234567890" }
           expect(response.status).to eq 422
         end
       end
