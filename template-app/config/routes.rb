@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/account_block/generate_unique_code', to: 'account_block/accounts#generate_unique_code'
+  put '/account_block/verified_unique_code', to: 'account_block/accounts#verified_unique_code'
   namespace :account_block do
     resources :accounts do
       put :update_profile_pic, on: :collection

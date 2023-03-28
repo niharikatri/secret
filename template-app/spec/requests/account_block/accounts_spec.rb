@@ -159,4 +159,61 @@ RSpec.describe AccountBlock::Account, type: :request do
         end
       end
     end
+
+    describe "#verified_unique_code" do
+      account = FactoryBot.create(:account)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+
+      context "when called by a non parent1 account" do
+        let(:request_params) do
+          {
+           data: {
+            unique_code: "1234567890"
+            }
+          }
+        end
+        it "verified a unique code if the account doesn't have one already" do
+            url = '/account_block/verified_unique_code'
+            put url, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 422
+        end
+        it "returns the success message User already verified if the account already has one" do
+          url = '/account_block/verified_unique_code'
+          put url, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 422
+        end
+      end
+
+      context "when called by a parent1 account" do
+        account = FactoryBot.create(:account)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+        let(:request_params) do
+          {
+           data: {
+            unique_code: "1234567890"
+            }
+          }
+        end
+        it "returns an error message This is a Parent1 user,Verification failed!" do
+          url = '/account_block/verified_unique_code'
+          put url, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 422
+        end
+        it "returns an error message Wrong Unique Code!" do
+          url = '/account_block/verified_unique_code'
+          put url, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 422
+        end
+      end
+    end
   end
