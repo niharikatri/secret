@@ -162,54 +162,68 @@ RSpec.describe AccountBlock::Account, type: :request do
     end
 
     describe "#verified_unique_code" do
-      account = FactoryBot.create(:account)
+      context "when called by a non parent1 account" do
+        account = FactoryBot.create(:account, unique_code: nil, role_id: nil)
           token = BuilderJsonWebToken.encode(account.id)
           auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
           headers = {
             TOKEN => token,
             C_TYPE => CONTENT_TYPE
         }
-
-      context "when called by a non parent1 account" do
         let(:request_params) do
           {
-           data: {
             unique_code: "1234567890"
-            }
           }
         end
-        it "verified a unique code if the account doesn't have one already" do
-            put VAR2, params: { token: token, unique_code: "1234567890" }
-          expect(response.status).to eq 422
-        end
-        it "returns the success message User already verified if the account already has one" do
+        it "returns a success message, Code is verified successfully!" do
           put VAR2, params: { token: token, unique_code: "1234567890" }
-          expect(response.status).to eq 422
+          expect(response.status).to eq 200
+          expect(JSON.parse(response.body)).to eq({ "message" => "Code is verified Successfully!" })
+        end
+        it "returns the success message, User already verified!" do
+          put VAR2, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 200
         end
       end
 
       context "when called by a parent1 account" do
-        account = FactoryBot.create(:account)
+        account = FactoryBot.create(:account, unique_code: "1234567890")
           token = BuilderJsonWebToken.encode(account.id)
           auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
           headers = {
             TOKEN => token,
             C_TYPE => CONTENT_TYPE
         }
+
         let(:request_params) do
           {
-           data: {
             unique_code: "1234567890"
-            }
           }
         end
-        it "returns an error message This is a Parent1 user,Verification failed!" do
+        it "returns an error message" do
           put VAR2, params: { token: token, unique_code: "1234567890" }
-          expect(response.status).to eq 422
+          expect(response.status).to eq 200
+          expect(JSON.parse(response.body)).to eq({ "errors" => "This is a Parent1 user,Verification failed!" })
         end
-        it "returns an error message Wrong Unique Code!" do
-          put VAR2, params: { token: token, unique_code: "1234567890" }
-          expect(response.status).to eq 422
+      end
+      context "when we use wrong unique code" do
+        account = FactoryBot.create(:account, unique_code: "1234567890")
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+
+        let(:request_params) do
+          {
+            unique_code: "1234567890"
+          }
+        end
+        it "returns an error message" do
+          put VAR2, params: { token: token, unique_code: "1234567822" }
+          expect(response.status).to eq 200
+          expect(JSON.parse(response.body)).to eq({ "errors" => "Wrong Unique Code!" })
         end
       end
     end

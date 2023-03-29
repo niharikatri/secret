@@ -180,22 +180,21 @@ module AccountBlock
     end
 
     def verified_unique_code
-      @account = Account.find(@token.id)
-      role = BxBlockRolesPermissions::Role.find_by(name: "Parent1")
-      r_id = role.id
-      check_code = Account.find_by(unique_code: params[:unique_code])
-      if check_code.present?
-        if @account.present? && @account.role_id != r_id
-          if @account.unique_code.blank?
-            @account.update(unique_code: params[:unique_code])
-            @account.save
+      @child_account = Account.find(@token.id)
+      parent1_role_id = BxBlockRolesPermissions::Role.find_by(name: "Parent1").id
+      account = Account.find_by(unique_code: params[:unique_code])
+      if account.present?
+        if @child_account.present? && @child_account.role_id != parent1_role_id
+          if @child_account.unique_code.blank?
+            @child_account.update(unique_code: params[:unique_code])
+            @child_account.save
             return render json: { message: 'Code is verified Successfully!' }, status: 200
           end
           return render json: { message: 'User already verified!' }, status: 200
         end
-        return render json: { message: 'This is a Parent1 user,Verification failed!' }, status: :unprocessable_entity
+        return render json: { errors: 'This is a Parent1 user,Verification failed!' }, status: :ok
       end
-      render json: { message: 'Wrong Unique Code!' }, status: :unprocessable_entity
+      render json: { errors: 'Wrong Unique Code!' }, status: :ok
     end
 
     private
