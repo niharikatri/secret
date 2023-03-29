@@ -178,6 +178,17 @@ module AccountBlock
       render json: { message: 'This is not the Parent1 user, not able to generate unique code!'}, status: :ok
     end
 
+    def listing_user
+      current_user_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
+      return render json: {errors: "please insert unique code"}, status: :not_found unless params[:unique_code].present?
+      @account = AccountBlock::Account.where(unique_code: params[:unique_code]).where.not(id: current_user_id)
+      if @account.present?
+          render json: { status: 'success', child_accounts: @account}, status: :ok 
+      else
+          render json: {status: 'error', message:"child account not present"}, status: :not_found 
+      end
+    end
+
     # def verified_unique_code
     #   @account = Account.find(@token.id)
     #   if @account.present? && @account.role_id != 1
