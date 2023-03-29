@@ -159,4 +159,28 @@ RSpec.describe AccountBlock::Account, type: :request do
         end
       end
     end
+
+    describe "#listing_user" do
+      account = FactoryBot.create(:account)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+
+      context "list user" do
+        it "list users who have shared code" do 
+            url = '/account_block/listing_user'
+            get url, params: { token: token, unique_code: account.unique_code }
+          expect(response.status).to eq 200
+        end
+
+        it "list users who have shared code" do 
+          url = '/account_block/listing_user'
+          get url, params: { token: token, unique_code: "1234567890" }
+          expect(response.status).to eq 404
+        end
+      end
+    end
   end
