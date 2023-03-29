@@ -200,7 +200,7 @@ RSpec.describe AccountBlock::Account, type: :request do
             unique_code: "1234567890"
           }
         end
-        it "returns an error message" do
+        it "returns an error message, Verification failed!" do
           put VAR2, params: { token: token, unique_code: "1234567890" }
           expect(response.status).to eq 200
           expect(JSON.parse(response.body)).to eq({ "errors" => "This is a Parent1 user,Verification failed!" })
@@ -220,7 +220,7 @@ RSpec.describe AccountBlock::Account, type: :request do
             unique_code: "1234567890"
           }
         end
-        it "returns an error message" do
+        it "returns an error message, Wrong Unique Code!" do
           put VAR2, params: { token: token, unique_code: "1234567822" }
           expect(response.status).to eq 200
           expect(JSON.parse(response.body)).to eq({ "errors" => "Wrong Unique Code!" })
