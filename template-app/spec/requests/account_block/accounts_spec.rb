@@ -172,9 +172,9 @@ RSpec.describe AccountBlock::Account, type: :request do
         expect(JSON.parse(response.body)).to eq({"message" => "Code is verified Successfully!"})
       end
 
-      skip "returns the success message, User already verified!" do
-        # subseqent requests do not update the repsonse object hence test is failing
-        put VAR2, params: {token: @token, unique_code: "1234567890"}
+      it "returns the success message, User already verified!" do
+        @account.unique_code = "1234567890"
+        @account.save!
         put VAR2, params: {token: @token, unique_code: "1234567890"}
         expect(response.status).to eq 200
         expect(JSON.parse(response.body)).to eq({"message" => "User already verified!"})
