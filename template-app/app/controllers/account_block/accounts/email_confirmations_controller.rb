@@ -23,8 +23,13 @@ module AccountBlock
         end
 
         @account.update activated: true
-        token = BuilderJsonWebToken.encode(@account.id, 7.days.from_now)
-        redirect_to "secretfriend://login?token=#{token}", allow_other_host: true and return
+        redirect_to "secretfriend://login?token=#{encoded_token}", allow_other_host: true and return
+      end
+
+      private
+
+      def encoded_token
+        BuilderJsonWebToken.encode @account.id, 7.days.from_now
       end
     end
   end
