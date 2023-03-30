@@ -16,3 +16,32 @@
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+
+.member_link {
+  background-color: #32A2DB57 !important;
+}
+
+
+.header .site_title, .header #utility_nav{
+	background-color: #32A2DB57 !important;
+}
+
+.header #tabs {
+	background-color: #32A2DB57 !important;
+}
+.header #tabs li.current a {
+    color: #353637 !important;
+    background-color: #32A2DB57;
+    font-weight: bolder;
+}
+.ui-tabs-panel .col{
+	padding: 8px !important;
+}
+
+.column .panel {
+	background-color: #6F99C3;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+}
