@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :characters, only: [:index]
     resources :voices, only: [:index]
     resources :languages, only: [:index]
-    get 'listing_user', to: 'accounts#listing_user' 
+    post 'listing_user', to: 'accounts#listing_user' 
   end
 
   namespace :bx_block_login do
