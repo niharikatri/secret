@@ -154,22 +154,7 @@ RSpec.describe AccountBlock::Account, type: :request do
   describe "#verified_unique_code" do
     context "when called by a non parent1 account" do
       before do
-        @account = AccountBlock::Account.create(
-          first_name: "demo",
-          last_name: "test",
-          email: "abc@example.com",
-          type: "EmailAccount",
-          password: "test@123",
-          password_confirmation: "test@123",
-          unique_auth_id: 123456,
-          activated: true,
-          gender: "male",
-          reply_audio_setting: true,
-          autoplay_setting: true,
-          profile_pic: Rack::Test::UploadedFile.new(Rails.root.join("app/assets/images/test_image.gif")),
-          role_id: nil,
-          unique_code: nil
-        )
+        @account = FactoryBot.create(:account, unique_code: nil, role_id: nil)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
