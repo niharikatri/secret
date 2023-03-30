@@ -55,7 +55,7 @@ unless Dashboard::Load.is_loaded_from_gem
         column span: 2 do
           panel "User Groups" do
             h5 do
-              # To be Implemented By niharika
+              AccountBlock::Account.pluck(:unique_code).uniq.compact.count
             end
           end
         end
