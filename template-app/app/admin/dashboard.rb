@@ -29,30 +29,28 @@ unless Dashboard::Load.is_loaded_from_gem
       # end
       
       columns do
-        column span: 2 do
+        column  do
           panel "Total Users" do
             h5 do
               link_to AccountBlock::Account.count, "/admin/accounts"
             end
           end
         end
-        column span: 2 do
+        column  do
           panel "Deactivated Accounts" do
             h5 do
               link_to AccountBlock::Account.deactivated.count, '/admin/accounts?scope=deactivated'
             end
           end
         end
-      end
-      columns do
-        column span: 2 do
+        column  do
           panel "Blacklisted Accounts" do
             h5 do
               AccountBlock::Account.where(is_blacklisted: true).count
             end
           end
         end
-        column span: 2 do
+        column  do
           panel "User Groups" do
             h5 do
               AccountBlock::Account.pluck(:unique_code).uniq.compact.count
