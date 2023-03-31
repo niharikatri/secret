@@ -126,6 +126,7 @@ RSpec.describe AccountBlock::Account, type: :request do
         C_TYPE => CONTENT_TYPE
       }
       @url = "/account_block/generate_unique_code"
+      @role = BxBlockRolesPermissions::Role.create(name: "Parent1")
     end
 
     context "when called by a parent1 account" do
@@ -135,7 +136,7 @@ RSpec.describe AccountBlock::Account, type: :request do
       end
 
       it "returns the existing unique code if the account already has one" do
-        @account.update(unique_code: "1234567890")
+        @account.update(unique_code: "1234567890",role_id: @role.id)
         @account.save
         get @url, params: {token: @token}
         expect(response).to have_http_status(:ok)
@@ -160,6 +161,7 @@ RSpec.describe AccountBlock::Account, type: :request do
           TOKEN => @token,
           C_TYPE => CONTENT_TYPE
         }
+        @role = BxBlockRolesPermissions::Role.create(name: "Parent1")
       end
 
       let(:request_params) { {unique_code: @account.unique_code} }
@@ -180,7 +182,8 @@ RSpec.describe AccountBlock::Account, type: :request do
     end
     context "when called by a parent1 account" do
       before do
-        @account = FactoryBot.create(:account, unique_code: "1234567890")
+        @role = BxBlockRolesPermissions::Role.create(name: "Parent1")
+        @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: @role.id)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
@@ -205,6 +208,7 @@ RSpec.describe AccountBlock::Account, type: :request do
           TOKEN => @token,
           C_TYPE => CONTENT_TYPE
         }
+        @role = BxBlockRolesPermissions::Role.create(name: "Parent1")
       end
 
       let(:request_params) { {unique_code: "1234567890"} }
