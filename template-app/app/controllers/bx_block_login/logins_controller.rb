@@ -32,6 +32,14 @@ module BxBlockLogin
           }}
         end
 
+        output.on(:blacklisted_account) do |account|
+          render json: {
+            errors: [{
+              failed_login: 'Account Blacklisted please contact the Admin.',
+            }],
+          }, status: :unauthorized
+        end
+
         output.login_account(account)
       else
         render json: {

@@ -16,6 +16,7 @@ module BxBlockLogin
           .where('LOWER(email) = ?', email)
           .where(:activated => true)
           .first
+        broadcast(:blacklisted_account) and return if account.is_blacklisted == true
       when 'social_account'
         account = AccountBlock::SocialAccount.find_by(
           email: account_params.email.downcase,
