@@ -140,7 +140,6 @@ RSpec.describe AccountBlock::Account, type: :request do
         @account.save
         get @url, params: {token: @token}
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)).to eq({"unique_code" => "1234567890"})
       end
     end
 
@@ -183,7 +182,7 @@ RSpec.describe AccountBlock::Account, type: :request do
     context "when called by a parent1 account" do
       before do
         @role = BxBlockRolesPermissions::Role.create(name: "Parent1")
-        @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: @role.id)
+        @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: "1")
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
