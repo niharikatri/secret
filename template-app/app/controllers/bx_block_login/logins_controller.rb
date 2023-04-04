@@ -25,11 +25,10 @@ module BxBlockLogin
         end
 
         output.on(:successful_login) do |account, token, refresh_token|
-          render json: {meta: {
+          render json: AccountBlock::LoginSerializer.new(account,meta: {
             token: token,
-            refresh_token: refresh_token,
-            id: account.id
-          }}
+            refresh_token: refresh_token
+          }).serializable_hash, status: :ok
         end
 
         output.on(:blacklisted_account) do |account|
