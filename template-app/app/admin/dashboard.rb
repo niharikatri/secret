@@ -32,21 +32,21 @@ unless Dashboard::Load.is_loaded_from_gem
         column  do
           panel "Total Users" do
             h5 do
-              link_to AccountBlock::Account.count, "/admin/accounts"
+              link_to AccountBlock::Account.count, "/admin/user_managements"
             end
           end
         end
         column  do
           panel "Deactivated Accounts" do
             h5 do
-              link_to AccountBlock::Account.deactivated.count, '/admin/accounts?scope=deactivated'
+              link_to AccountBlock::Account.deactivated.count, '/admin/user_managements?scope=deactivated'
             end
           end
         end
         column  do
           panel "Blacklisted Accounts" do
             h5 do
-              AccountBlock::Account.where(is_blacklisted: true).count
+              link_to AccountBlock::Account.where(is_blacklisted: true).count, '/admin/user_managements?q[is_blacklisted_eq]=true&commit=Filter&order=id_desc'
             end
           end
         end

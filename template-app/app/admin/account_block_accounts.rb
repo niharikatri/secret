@@ -1,4 +1,4 @@
-ActiveAdmin.register AccountBlock::Account, as: "Accounts" do
+ActiveAdmin.register AccountBlock::Account, as: "User Management" do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
@@ -8,8 +8,8 @@ ActiveAdmin.register AccountBlock::Account, as: "Accounts" do
   permit_params :first_name, :last_name, :full_phone_number, :country_code, :phone_number, :email, :activated, :device_id, :unique_auth_id, :password_digest, :type, :user_name, :platform, :user_type, :app_language_id, :last_visit_at, :is_blacklisted, :suspend_until, :status, :role_id, :character_id, :voice_id, :date_of_birth, :gender, :autoplay_setting, :reply_audio_setting, :language_id, :is_terms_and_conditions_accepted, :unique_code, :profile_pic
 
   scope :all
-  scope("Parent1") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Parent1")&.id) }
-  scope("Parent2") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Parent2")&.id) }
+  scope("Papa") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Papa")&.id) }
+  scope("Mumma") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Mumma")&.id) }
   scope("Child") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Child")&.id) }
   scope :deactivated
 

@@ -167,7 +167,7 @@ module AccountBlock
 
     def generate_unique_code
       @account = Account.find(@token.id)
-      role = BxBlockRolesPermissions::Role.find_by(name: "Parent1")
+      role = BxBlockRolesPermissions::Role.find_by(name: "Papa")
       if @account.present? && @account.role_id == role.id
         if @account.unique_code.blank?
           random_code = SecureRandom.random_number(100**5).to_s.rjust(10,'0')
@@ -176,15 +176,15 @@ module AccountBlock
         end
         return render json: { unique_code: @account.unique_code }, status: :ok
       end
-      render json: { message: 'This is not the Parent1 user, not able to generate unique code!'}, status: :ok
+      render json: { message: 'This is not the Papa user, not able to generate unique code!'}, status: :ok
     end
 
     def verified_unique_code
       @child_account = Account.find(@token.id)
-      parent1_role_id = BxBlockRolesPermissions::Role.find_by(name: "Parent1").id
+      papa_role_id = BxBlockRolesPermissions::Role.find_by(name: "Papa").id
       account = Account.find_by(unique_code: params[:unique_code])
       if account.present?
-        if @child_account.present? && @child_account.role_id != parent1_role_id
+        if @child_account.present? && @child_account.role_id != papa_role_id
           if @child_account.unique_code.blank?
             @child_account.update(unique_code: params[:unique_code])
             @child_account.save
@@ -192,7 +192,7 @@ module AccountBlock
           end
           return render json: { message: 'User already verified!' }, status: 200
         end
-        return render json: { errors: 'This is a Parent1 user,Verification failed!' }, status: :ok
+        return render json: { errors: 'Verification failed!' }, status: :ok
       end
       render json: { errors: 'Wrong Unique Code!' }, status: :ok
     end
