@@ -176,7 +176,7 @@ module AccountBlock
         end
         return render json: { unique_code: @account.unique_code }, status: :ok
       end
-      render json: { message: 'This is not the Papa user, not able to generate unique code!'}, status: :ok
+      render json: { message: 'This is not the Papa account, not able to generate unique code!'}, status: :ok
     end
 
     def verified_unique_code
