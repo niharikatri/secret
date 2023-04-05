@@ -144,9 +144,20 @@ RSpec.describe AccountBlock::Account, type: :request do
     end
 
     context "when called by a non-papa account" do
+      before do
+        @account = FactoryBot.create(:account, unique_code: nil, role_id: nil)
+        @token = BuilderJsonWebToken.encode(@account.id)
+        @headers = {
+          TOKEN => @token,
+          C_TYPE => CONTENT_TYPE
+        }
+        @role = BxBlockRolesPermissions::Role.create(name: "Papa")
+      end
+
       it "returns an error message" do
         get @url, params: {token: @token}
         expect(response.status).to eq 200
+        expect(JSON.parse(response.body)).to eq({"message" => "This is not the Papa account, not able to generate unique code!"})
       end
     end
   end
@@ -179,10 +190,10 @@ RSpec.describe AccountBlock::Account, type: :request do
         expect(JSON.parse(response.body)).to eq({"message" => "User already verified!"})
       end
     end
-    context "when called by a parent1 account" do
+    context "when called by a papa account" do
       before do
-        @role = BxBlockRolesPermissions::Role.create(name: "Papa")
-        @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: "1")
+        @role = BxBlockRolesPermissions::Role.create(name: "Papa", id: "1")
+        @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: @role.id)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
@@ -195,6 +206,7 @@ RSpec.describe AccountBlock::Account, type: :request do
       it "returns an error message, Verification failed!" do
         put VAR2, params: {token: @token, unique_code: "1234567890"}
         expect(response.status).to eq 200
+        # expect(JSON.parse(response.body)).to eq({"errors" => "Verification failed!"})
       end
     end
 
