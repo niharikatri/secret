@@ -86,9 +86,24 @@ RSpec.describe AccountBlock::Account, type: :request do
       end
 
       it "Updates the Account" do
-        url = "/account_block/accounts/" + account.id.to_s
+        url = "/account_block/accounts/" + @account.id.to_s
         put url, params: create_params.to_json, headers: @headers
         expect(response).to have_http_status(200)
+      end
+
+      it "returns error if account not found" do
+        account_id = @account.id
+        @account.destroy!
+        url = "/account_block/accounts/#{account_id}"
+        put url, params: create_params.to_json, headers: @headers
+        expect(response.status).to eq 404
+      end
+
+      it "returns error if parameters are invalid" do
+        url = "/account_block/accounts/1"
+        params = {data: {attributes: {voice_id: 99999999999999999999}}}
+        put url, params: params.to_json, headers: @headers
+        expect(response.status).to eq 400
       end
     end
 
@@ -113,6 +128,36 @@ RSpec.describe AccountBlock::Account, type: :request do
         url = "/account_block/accounts/update_profile_pic"
         put url, params: create_params.to_json, headers: @headers
         expect(response).to have_http_status(200)
+      end
+    end
+
+    describe "PUT update_equalizer_profile" do
+      before do
+        @role = BxBlockRolesPermissions::Role.find_or_create_by(name: "Papa")
+        @account = FactoryBot.create(:account, role_id: @role.id)
+        @headers = {
+          TOKEN => BuilderJsonWebToken.encode(@account.id),
+          C_TYPE => CONTENT_TYPE
+        }
+        @equalizer_profile = {data: {attributes: {equalizer_profile: {pitch: -1, bass: 2, mid: 0, treble: 1}}}}
+      end
+
+      it "updates equalizer_profile" do
+        url = "/account_block/accounts/#{@account.id}"
+        put url, params: @equalizer_profile.to_json, headers: @headers
+        expect(response).to have_http_status(200)
+      end
+
+      it "does not update equalizer_profile if child role" do
+        role = BxBlockRolesPermissions::Role.find_or_create_by(name: "Child")
+        account = FactoryBot.create(:account, role_id: role.id)
+        headers = {
+          TOKEN => BuilderJsonWebToken.encode(account.id),
+          C_TYPE => CONTENT_TYPE
+        }
+        url = "/account_block/accounts/#{account.id}"
+        put url, params: @equalizer_profile.to_json, headers: headers
+        expect(response).to have_http_status(403)
       end
     end
   end

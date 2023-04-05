@@ -14,5 +14,6 @@ FactoryBot.define do
       profile_pic {Rack::Test::UploadedFile.new(Rails.root.join('app/assets/images/test_image.gif'))}
       role_id {"1"}
       unique_code {"1678993677"}
+      equalizer_profile { { pitch: 0, bass: 0, mid: 0, treble: 0 } }
     end
 end
