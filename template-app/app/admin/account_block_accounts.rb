@@ -1,4 +1,4 @@
-ActiveAdmin.register AccountBlock::Account, as: "Accounts" do
+ActiveAdmin.register AccountBlock::Account, as: "User Management" do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
@@ -10,8 +10,8 @@ ActiveAdmin.register AccountBlock::Account, as: "Accounts" do
   json_editor
 
   scope :all
-  scope("Parent1") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Parent1")&.id) }
-  scope("Parent2") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Parent2")&.id) }
+  scope("Papa") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Papa")&.id) }
+  scope("Mumma") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Mumma")&.id) }
   scope("Child") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Child")&.id) }
   scope :deactivated
 
