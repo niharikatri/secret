@@ -86,9 +86,24 @@ RSpec.describe AccountBlock::Account, type: :request do
       end
 
       it "Updates the Account" do
-        url = "/account_block/accounts/" + account.id.to_s
+        url = "/account_block/accounts/" + @account.id.to_s
         put url, params: create_params.to_json, headers: @headers
         expect(response).to have_http_status(200)
+      end
+
+      it "returns error if account not found" do
+        account_id = @account.id
+        @account.destroy!
+        url = "/account_block/accounts/#{account_id}"
+        put url, params: create_params.to_json, headers: @headers
+        expect(response.status).to eq 404
+      end
+
+      it "returns error if parameters are invalid" do
+        url = "/account_block/accounts/1"
+        params = {data: {attributes: {voice_id: 99999999999999999999}}}
+        put url, params: params.to_json, headers: @headers
+        expect(response.status).to eq 400
       end
     end
 
@@ -115,6 +130,36 @@ RSpec.describe AccountBlock::Account, type: :request do
         expect(response).to have_http_status(200)
       end
     end
+
+    describe "PUT update_equalizer_profile" do
+      before do
+        @role = BxBlockRolesPermissions::Role.find_or_create_by(name: "Papa")
+        @account = FactoryBot.create(:account, role_id: @role.id)
+        @headers = {
+          TOKEN => BuilderJsonWebToken.encode(@account.id),
+          C_TYPE => CONTENT_TYPE
+        }
+        @equalizer_profile = {data: {attributes: {equalizer_profile: {pitch: -1, bass: 2, mid: 0, treble: 1}}}}
+      end
+
+      it "updates equalizer_profile" do
+        url = "/account_block/accounts/#{@account.id}"
+        put url, params: @equalizer_profile.to_json, headers: @headers
+        expect(response).to have_http_status(200)
+      end
+
+      it "does not update equalizer_profile if child role" do
+        role = BxBlockRolesPermissions::Role.find_or_create_by(name: "Child")
+        account = FactoryBot.create(:account, role_id: role.id)
+        headers = {
+          TOKEN => BuilderJsonWebToken.encode(account.id),
+          C_TYPE => CONTENT_TYPE
+        }
+        url = "/account_block/accounts/#{account.id}"
+        put url, params: @equalizer_profile.to_json, headers: headers
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe "#generate_unique_code" do
@@ -133,6 +178,7 @@ RSpec.describe AccountBlock::Account, type: :request do
       it "generates a unique code if the account doesn't have one already" do
         get @url, params: {token: @token}
         expect(response.status).to eq 200
+        # expect(JSON.parse(response.body)).to eq({"unique_code" => "1234567890"})
       end
 
       it "returns the existing unique code if the account already has one" do
@@ -145,7 +191,7 @@ RSpec.describe AccountBlock::Account, type: :request do
 
     context "when called by a non-papa account" do
       before do
-        @account = FactoryBot.create(:account, unique_code: nil, role_id: nil)
+        @account = FactoryBot.create(:account)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
@@ -165,13 +211,13 @@ RSpec.describe AccountBlock::Account, type: :request do
   describe "#verified_unique_code" do
     context "when called by a non papa account" do
       before do
-        @account = FactoryBot.create(:account, unique_code: nil, role_id: nil)
+        @account = FactoryBot.create(:account, unique_code: nil, role_id: 1)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {
           TOKEN => @token,
           C_TYPE => CONTENT_TYPE
         }
-        @role = BxBlockRolesPermissions::Role.create(name: "Papa")
+        @role = BxBlockRolesPermissions::Role.create(name: "Papa", id: 1)
       end
 
       let(:request_params) { {unique_code: @account.unique_code} }
@@ -192,7 +238,7 @@ RSpec.describe AccountBlock::Account, type: :request do
     end
     context "when called by a papa account" do
       before do
-        @role = BxBlockRolesPermissions::Role.create(name: "Papa", id: "1")
+        @role = BxBlockRolesPermissions::Role.create(name: "Papa", id: 1)
         @account = FactoryBot.create(:account, unique_code: "1234567890", role_id: @role.id)
         @token = BuilderJsonWebToken.encode(@account.id)
         @headers = {

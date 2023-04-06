@@ -7,6 +7,8 @@ ActiveAdmin.register AccountBlock::Account, as: "User Management" do
   #
   permit_params :first_name, :last_name, :full_phone_number, :country_code, :phone_number, :email, :activated, :device_id, :unique_auth_id, :password_digest, :type, :user_name, :platform, :user_type, :app_language_id, :last_visit_at, :is_blacklisted, :suspend_until, :status, :role_id, :character_id, :voice_id, :date_of_birth, :gender, :autoplay_setting, :reply_audio_setting, :language_id, :is_terms_and_conditions_accepted, :unique_code, :profile_pic
 
+  json_editor
+
   scope :all
   scope("Papa") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Papa")&.id) }
   scope("Mumma") { |scope| scope.where(role_id: BxBlockRolesPermissions::Role.find_by_name("Mumma")&.id) }
@@ -39,6 +41,7 @@ ActiveAdmin.register AccountBlock::Account, as: "User Management" do
       f.input :role
       f.input :date_of_birth
       f.input :is_blacklisted
+      f.input :equalizer_profile, as: :jsonb
     end
     f.actions
   end
@@ -56,6 +59,7 @@ ActiveAdmin.register AccountBlock::Account, as: "User Management" do
       row :role
       row :date_of_birth
       row :is_blacklisted
+      row :equalizer_profile, as: :jsonb
     end
   end
 end

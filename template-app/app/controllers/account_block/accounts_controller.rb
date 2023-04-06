@@ -152,9 +152,22 @@ module AccountBlock
 
     def update
       @account = Account.find(@token.id)
+
+      if @account.blank?
+        render json: {status: "error", message: "account not found"}, status: :not_found and return
+      end
+
       account_params = jsonapi_deserialize(params)
-      if @account.update(account_params)
+
+      if account_params.include?("equalizer_profile") && @account.role_id == BxBlockRolesPermissions::Role.find_by(name: "Child").id
+        render json: {status: "error", message: "cannot update equalizer profile for child role"}, status: :forbidden and return
+      end
+
+      begin
+        @account.update(account_params)
         render json: AccountSerializer.new(@account).serializable_hash, status: :ok
+      rescue => e
+        render json: {status: "error", message: e.message}, status: :bad_request
       end
     end
 
