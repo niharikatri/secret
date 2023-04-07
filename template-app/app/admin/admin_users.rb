@@ -43,7 +43,7 @@ unless AdminUsers::Load.is_loaded_from_gem
       end
       f.actions
     end
-    
+
     show do
       attributes_table do
         row :email
