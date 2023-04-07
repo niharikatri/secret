@@ -15,6 +15,9 @@ module AccountBlock
     belongs_to :language, optional: true
     belongs_to :role, class_name: "BxBlockRolesPermissions::Role", optional: true
     has_one_attached :profile_pic
+    has_many :audios, class_name: "BxBlockAudiovideomessenger::Audio"
+    has_many :conversations, through: :audios, class_name: "BxBlockAudiovideomessenger::Conversation"
+
 
     enum status: %i[regular suspended deleted deactivated]
     enum gender: %i[male female other]
