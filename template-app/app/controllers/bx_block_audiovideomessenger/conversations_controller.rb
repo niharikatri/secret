@@ -21,7 +21,7 @@ module BxBlockAudiovideomessenger
 
     def current_account
       account_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
-      current_user = AccountBlock::Account.find(account_id) 
+      AccountBlock::Account.find(account_id) 
     end
   end 
 end

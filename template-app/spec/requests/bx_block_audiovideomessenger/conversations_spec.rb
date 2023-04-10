@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe BxBlockAudiovideomessenger::Audio, type: :request do
-  V = "/bx_block_audiovideomessenger/conversations"
+RSpec.describe BxBlockAudiovideomessenger::Conversation, type: :request do
+  ROUTES = "/bx_block_audiovideomessenger/conversations"
   before(:each) do
     @account = FactoryBot.create(:account)
     @token = BuilderJsonWebToken.encode(@account.id)
@@ -10,7 +10,7 @@ RSpec.describe BxBlockAudiovideomessenger::Audio, type: :request do
   describe "Creates when params is present" do
     context "it creates" do
       it "post create request" do
-        post V , params: {account_ids: "1", token: @token, name: "demo"}
+        post ROUTES , params: {account_ids: "1", token: @token, name: "demo"}
         expect(response).to have_http_status(201)
       end
     end
@@ -20,7 +20,7 @@ RSpec.describe BxBlockAudiovideomessenger::Audio, type: :request do
     context "it shows users" do
       let(:conversation) { create(:conversation) }
       it "get index request" do
-        get V , params: { token: @token}
+        get ROUTES , params: { token: @token}
         expect(response).to have_http_status(200)
       end
     end

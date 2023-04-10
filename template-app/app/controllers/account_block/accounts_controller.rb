@@ -212,8 +212,8 @@ module AccountBlock
     
     def listing_user
       current_user_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
-      return render json: {errors: "please insert unique code"}, status: :not_found unless params[:unique_code].present?
-      @account = AccountBlock::Account.where(unique_code: params[:unique_code]).where.not(id: current_user_id)
+      code = AccountBlock::Account.find(current_user_id).unique_code
+      @account = AccountBlock::Account.where(unique_code: code).where.not(id: current_user_id)
       if @account.present?
           render json: { status: 'success', child_accounts: @account}, status: :ok 
       else

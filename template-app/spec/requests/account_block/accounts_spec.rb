@@ -289,14 +289,8 @@ RSpec.describe AccountBlock::Account, type: :request do
       context "list user" do
         it "list users who have shared code" do 
           url = '/account_block/listing_user'
-          post url, params: { token: token, unique_code: account.unique_code }
+          get url, params: { token: token }
           expect(response.status).to eq 200
-        end
-
-        it "list users who have shared code" do 
-          url = '/account_block/listing_user'
-          post url, params: { token: token }
-          expect(response.status).to eq 404
         end
       end
     end
