@@ -32,3 +32,12 @@ local:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
+
+minio:
+  service: S3
+  access_key_id: "hello"
+  secret_access_key: "builderai"
+  region: "default"
+  bucket: "sbucket"
+  endpoint: "https://minio.b295591.dev.eastus.az.svc.builder.cafe/minio/login"
+  force_path_style: true
