@@ -41,4 +41,9 @@ Rails.application.routes.draw do
     resources :roles, only: [:index]
   end
 
+  namespace :bx_block_audiovideomessenger do
+    resources :audios, only: [:create]
+    resources :conversations, only: [:index, :create, :show]
+  end
+  
 end
