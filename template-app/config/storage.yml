@@ -39,5 +39,5 @@ minio:
   secret_access_key: "builderai"
   region: "default"
   bucket: "sbucket"
-  endpoint: "https://minio.b295591.dev.eastus.az.svc.builder.cafe/minio/login"
+  endpoint: "https://minio.b295591.dev.eastus.az.svc.builder.cafe"
   force_path_style: true
