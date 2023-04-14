@@ -215,11 +215,9 @@ module AccountBlock
       code = AccountBlock::Account.find(current_user_id).unique_code
       @account = AccountBlock::Account.where(unique_code: code).where.not(id: current_user_id)
       if @account.present?
-           # render json: AccountBlock::Account.serializable_hash{ status: 'success', child_accounts: @account}, status: :ok 
-          render json: AccountSerializer.new(@account).serializable_hash, status: :ok
-
-        else
-          render json: {status: 'error', message:"child account not present"}, status: :not_found 
+        render json: AccountSerializer.new(@account).serializable_hash, status: :ok
+      else
+        render json: {status: 'error', message:"child account not present"}, status: :not_found 
       end
     end
 
