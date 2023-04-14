@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :characters, only: [:index]
     resources :voices, only: [:index]
     resources :languages, only: [:index]
-    post 'listing_user', to: 'accounts#listing_user' 
+    get 'listing_user', to: 'accounts#listing_user' 
   end
 
   namespace :bx_block_login do
@@ -41,4 +41,9 @@ Rails.application.routes.draw do
     resources :roles, only: [:index]
   end
 
+  namespace :bx_block_audiovideomessenger do
+    resources :audios, only: [:create]
+    resources :conversations, only: [:index, :create, :show]
+  end
+  
 end
