@@ -294,4 +294,23 @@ RSpec.describe AccountBlock::Account, type: :request do
         end
       end
     end
+
+    describe "delete_child_account" do
+      account = FactoryBot.create(:account)
+      account1 = FactoryBot.create(:account, unique_code: account.unique_code)
+          token = BuilderJsonWebToken.encode(account.id)
+          auth_token = BuilderJsonWebToken::JsonWebToken.encode(account.id)
+          headers = {
+            TOKEN => token,
+            C_TYPE => CONTENT_TYPE
+        }
+
+      context "delete account" do
+        it "deletes child account " do
+          url = '/account_block/delete_child_account'
+          delete url, params: { token: token, account_id: account1.id }
+          expect(response.status).to eq 200
+        end
+      end
+    end
 end

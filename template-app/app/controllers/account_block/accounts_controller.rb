@@ -215,12 +215,24 @@ module AccountBlock
       code = AccountBlock::Account.find(current_user_id).unique_code
       @account = AccountBlock::Account.where(unique_code: code).where.not(id: current_user_id)
       if @account.present?
-          render json: { status: 'success', child_accounts: @account}, status: :ok 
+        render json: AccountSerializer.new(@account).serializable_hash, status: :ok
       else
-          render json: {status: 'error', message:"child account not present"}, status: :not_found 
+        render json: {status: 'error', message:"child account not present"}, status: :not_found 
       end
     end
 
+    def delete_child_account
+      current_user_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
+      code = AccountBlock::Account.find(current_user_id).unique_code
+      child_account = AccountBlock::Account.where(unique_code: code).where.not(id: current_user_id).find(params[:account_id])
+    
+      if child_account.destroy
+        render json: { status: 'success', message: 'Child account deleted' }, status: :ok 
+      else
+        render json: { status: 'error', message: 'Failed to delete child account' }, status: :not_found
+      end
+    end
+    
     private
 
     def account_params

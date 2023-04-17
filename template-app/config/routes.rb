@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :voices, only: [:index]
     resources :languages, only: [:index]
     get 'listing_user', to: 'accounts#listing_user' 
+    delete 'delete_child_account', to: 'accounts#delete_child_account'
   end
 
   namespace :bx_block_login do
