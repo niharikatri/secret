@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :voices, only: [:index]
     resources :languages, only: [:index]
     get 'listing_user', to: 'accounts#listing_user' 
-    delete 'delete_child_account', to: 'accounts#delete_child_account'
+    put 'delete_child_account', to: 'accounts#delete_child_account'
   end
 
   namespace :bx_block_login do
@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   	resources :about_us, only: [:index]
   	resources :privacy_policies, only: [:index]
   	resources :how_we_works
+    resources :contact_us, only: [:create]
   end
 
   namespace :bx_block_login do

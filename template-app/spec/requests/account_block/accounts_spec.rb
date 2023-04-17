@@ -308,7 +308,7 @@ RSpec.describe AccountBlock::Account, type: :request do
       context "delete account" do
         it "deletes child account " do
           url = '/account_block/delete_child_account'
-          delete url, params: { token: token, account_id: account1.id }
+          put url, params: { token: token, account_id: account1.id }
           expect(response.status).to eq 200
         end
       end
