@@ -6,7 +6,6 @@ RSpec.describe Admin::ContactUsController, type: :controller do
   before(:each) do
     @admin = AdminUser.create!(email: 'test123@example.com', password: 'password', password_confirmation: 'password')
     @admin.save
-    #@about_us = FactoryBot.create(:about_us)
     sign_in @admin
   end
  
