@@ -2,7 +2,7 @@ module AccountBlock
   class AccountsController < ApplicationController
     include BuilderJsonWebToken::JsonWebTokenValidation
 
-    before_action :validate_json_web_token, only: [:search, :change_email_address, :change_phone_number, :specific_account, :logged_user, :update, :update_profile_pic, :generate_unique_code, :verified_unique_code]
+    before_action :validate_json_web_token, only: [:show, :search, :change_email_address, :change_phone_number, :specific_account, :logged_user, :update, :update_profile_pic, :generate_unique_code, :verified_unique_code]
 
     def create
       case params[:data][:type] #### rescue invalid API format
@@ -233,6 +233,16 @@ module AccountBlock
       end
     end
     
+    def show
+      current_user_id = BuilderJsonWebToken::JsonWebToken.decode(params[:token]).id
+      @account = AccountBlock::Account.find_by_id(current_user_id)
+      if @account.present?
+        render json: AccountSerializer.new(@account).serializable_hash, status: :ok
+      else
+        render json: {status: "error", message: "account not found"}, status: :not_found
+      end
+    end
+
     private
 
     def account_params
