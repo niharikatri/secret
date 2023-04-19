@@ -20,7 +20,7 @@ appExtConfig:
   # A change to RAILS_MAX_THREADS might affect the 
   # resource limits set below so that needs to be taken into consideration
   RAILS_MAX_THREADS: "10"
-
+  HOST_URL: "https://secretfriendblackhat2022-295591-ruby.b295591.stage.eastus.az.svc.builder.ai/"
 image:
   repository:  registry.gitlab.builder.ai/template-app
   pullPolicy: IfNotPresent
