@@ -15,6 +15,25 @@ RSpec.describe AccountBlock::Account, type: :request do
       @post_path = "/account_block/accounts"
     end
 
+    describe "GET accounts" do
+      before do
+        @account = FactoryBot.create(:account)
+        @token = BuilderJsonWebToken.encode(@account.id)
+      end
+
+      it "shows the account" do
+        url = "/account_block/accounts?token=#{@token}"
+        get url
+        expect(response).to have_http_status(200)
+      end
+
+      it "returns error if account not found" do
+        url = "/account_block/accounts?token=BADTOKEN"
+        get url
+        expect(response.status).not_to eq 200
+      end
+    end
+
     describe "post #create" do
       let(:request_params) do
         {
