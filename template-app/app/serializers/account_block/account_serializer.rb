@@ -29,7 +29,9 @@ module AccountBlock
     attribute :profile_pic do |object, params|
       
       if object.profile_pic.present?
-          Rails.application.routes.url_helpers.rails_blob_url(object.profile_pic, only_path: true)
+        base_url = Rails.application.config.action_mailer.default_url_options[:host]
+        profile_pic_url = Rails.application.routes.url_helpers.rails_blob_url(object.profile_pic, only_path: true)
+        base_url + profile_pic_url
       end    
     end
 
