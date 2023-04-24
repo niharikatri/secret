@@ -45,5 +45,6 @@ module App
     config.middleware.use ActionDispatch::Session::CookieStore, 
     config.session_options
     config.middleware.use Rack::MethodOverride
+    config.time_zone = "New Delhi"
   end
 end

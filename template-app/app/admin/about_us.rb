@@ -5,7 +5,7 @@ ActiveAdmin.register BxBlockAdmin::AboutUs, as: "About Us" do
   actions :index, :show, :edit, :update
   breadcrumb do
       [
-         link_to( ABOUT_US, "/admin/about_us/#{BxBlockAdmin::AboutUs.first&.id}")
+         link_to( ABOUT_US, "/admin/about_us/:id")
        ]
      end
   

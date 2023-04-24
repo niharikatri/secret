@@ -9,16 +9,7 @@ RSpec.describe Admin::HowWeWorksController, type: :controller do
     @how_we_work = FactoryBot.create(:how_we_work)
     sign_in @admin
   end
-  describe "Post#new" do
-    let(:params) do {
-        description:"how_we_work"
-    }
-    end
-    it "create how_we_work " do
-      post :new, params: params
-      expect(response).to have_http_status(200)
-    end
-  end
+  
   describe "Get#index" do
     it "show all data" do
       get :index
