@@ -16,7 +16,7 @@ ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
     f.actions
   end
     
-  index title: "Privacy Policies" do
+  index title: PRIVACY_POLICY do
     selectable_column
     id_column
     column :privacy_policy do |privacy_policy|
