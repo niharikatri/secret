@@ -19,6 +19,7 @@ end
 unless AdminUsers::Load.is_loaded_from_gem
   ActiveAdmin.register AdminUser do
     permit_params :email, :password, :password_confirmation
+    actions :index, :show, :edit, :update
 
     index do
       selectable_column
