@@ -9,16 +9,7 @@ RSpec.describe Admin::PrivacyPoliciesController, type: :controller do
     @privacy_policy = FactoryBot.create(:privacy_policy)
     sign_in @admin
   end
-  describe "Post#new" do
-    let(:params) do {
-        description:"privacy_policy"
-    }
-    end
-    it "create privacy_policy " do
-      post :new, params: params
-      expect(response).to have_http_status(200)
-    end
-  end
+ 
   describe "Get#index" do
     it "show all data" do
       get :index

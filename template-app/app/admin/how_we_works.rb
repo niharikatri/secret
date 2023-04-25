@@ -2,10 +2,11 @@ ActiveAdmin.register BxBlockAdmin::HowWeWork, as: "How We Work" do
   menu parent: 'App Settings'
   HOW_WE_WORK = "How We Work"
   permit_params :description
+  actions :index, :show, :edit, :update
     
   form do |f|
     f.inputs HOW_WE_WORK do
-      f.input :description, as: :quill_editor
+      f.input :description, as: :quill_editor, input_html: { class: "description_how_we_work"}
     end
     f.actions
   end
