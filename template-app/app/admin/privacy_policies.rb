@@ -25,7 +25,7 @@ ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policy" do
     actions
   end
  
-  show title: "Privacy Policy" do |d|
+  show title: PRIVACY_POLICY do |d|
       attributes_table do
         div :class => "quill-editor" do
           d.description.html_safe
