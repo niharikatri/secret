@@ -43,4 +43,57 @@ RSpec.describe Admin::CharactersController, type: :controller do
         expect(response).to have_http_status(200)
     end
   end
+  describe '#update' do
+    context 'with valid parameters' do
+      before do
+        put :update, params: { id: @character.id, character: { name: 'MyString' } }
+      end
+
+      it 'updates the character' do
+        expect(@character.reload.name).to eq('MyString')
+      end
+
+      it 'redirects to the admin characters index page' do
+        expect(response).to redirect_to(admin_characters_path)
+      end
+
+      it 'displays a update message' do
+        expect(flash[:notice]).to eq('Character Successfully Updated ')
+      end
+    end
+  end
+  describe '#create' do
+    context 'creates with valid parameters' do
+      before do
+        post :create, params: { character: { name: 'MyString' } }
+      end
+
+      it 'creates the character' do
+        expect(@character.reload.name).to eq('MyString')
+      end
+
+      it 'redirects to index page' do
+        expect(response).to redirect_to(admin_characters_path)
+      end
+
+      it 'displays a success message' do
+        expect(flash[:notice]).to eq('Character Successfully Created ')
+      end
+    end
+  end
+  describe '#destroy' do
+    context 'destroys character' do
+      before do
+        delete :destroy, params: { id: @character.id }
+      end
+
+      it 'redirects to  characters index page' do
+        expect(response).to redirect_to(admin_characters_path)
+      end
+
+      it 'displays a destroy message' do
+        expect(flash[:notice]).to eq('Character Successfully Destroyed')
+      end
+    end
+  end
 end

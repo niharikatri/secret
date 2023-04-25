@@ -1,6 +1,6 @@
-ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
+ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policy" do
   menu parent: 'App Settings'
-  PRIVACY_POLICY = "Privacy Policies"
+  PRIVACY_POLICY = "Privacy Policy"
   permit_params :description
   actions :index, :show, :edit, :update
   breadcrumb do
@@ -10,7 +10,7 @@ ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
    end
     
   form do |f|
-    f.inputs 'Privacy Policy' do
+    f.inputs PRIVACY_POLICY do
       f.input :description, as: :quill_editor, input_html: { class: "description_privacy_policies"}
     end
     f.actions
@@ -20,9 +20,7 @@ ActiveAdmin.register BxBlockAdmin::PrivacyPolicy, as: "Privacy Policies" do
     selectable_column
     id_column
     column :privacy_policy do |privacy_policy|
-      div :class => "quill-editor" do 
-        truncate(privacy_policy.description.html_safe, omision: "...", length: 50)
-      end
+      strip_tags(privacy_policy.description).truncate(50)
     end
     actions
   end
