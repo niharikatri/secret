@@ -19,7 +19,7 @@ end
 unless AccountGroups::Load.is_loaded_from_gem
   ActiveAdmin.register BxBlockAccountGroups::Group, as: 'User Groups' do
     permit_params :name, :settings, :account_ids
-
+    actions :index, :show
     index do
       selectable_column
       id_column

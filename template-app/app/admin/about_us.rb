@@ -20,9 +20,7 @@ ActiveAdmin.register BxBlockAdmin::AboutUs, as: "About Us" do
     selectable_column
     id_column
     column :about_us do |about_us|
-      div :class => "quill-editor" do 
-        truncate(about_us.description.html_safe, omision: "...", length: 50)
-      end
+      strip_tags(about_us.description).truncate(50)
     end
     actions
   end

@@ -30,5 +30,33 @@ ActiveAdmin.register AccountBlock::Character, as: "Characters" do
     end
     f.actions
   end
-  
+
+  controller do
+    def create 
+      super do |format| 
+        redirect_to(
+          admin_characters_path,
+          notice: 'Character Successfully Created '
+        ) and return
+      end
+    end
+
+    def update 
+      super do |format| 
+        redirect_to(
+          admin_characters_path,
+          notice: 'Character Successfully Updated '
+        ) and return
+      end
+    end
+
+    def destroy 
+      super do |format| 
+        redirect_to(
+          admin_characters_path,
+          notice: 'Character Successfully Destroyed'
+        ) and return
+      end
+    end
+  end
 end
